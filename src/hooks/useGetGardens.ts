@@ -1,18 +1,17 @@
 import { EcoGardenApi } from "../lib/ecogarden";
 import type { AxiosPromise } from "axios";
-import type { Garden } from "../types/api/api.garden";
+import type { Gardens } from "../types/api/api.garden";
 import { useQuery } from "@tanstack/react-query";
 
-const getGardenById = async (id: string): AxiosPromise<Garden> => {
-  const response = await EcoGardenApi.get<Garden>(`/garden/${id}`);
+const getGardenById = async (): AxiosPromise<Gardens> => {
+  const response = await EcoGardenApi.get<Gardens>(`/garden/all`);
   return response;
 };
 
-export const useGetGarden = (id: string) => {
+export const useGetGardens = () => {
   const query = useQuery({
-    queryKey: ["garden", id],
-    queryFn: () => getGardenById(id),
-    enabled: !!id,
+    queryKey: ["garden", "all"],
+    queryFn: getGardenById,
     staleTime: 1000 * 60 * 30,
   });
 

@@ -2,6 +2,7 @@ import { MapCard } from "../../cards/mapCard";
 import { LuAlarmClock } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
 import { useMapStore } from "../../../stores/mapStore";
+import { useEffect } from "react";
 
 interface AccordionItemProps {
   id: string;
@@ -41,7 +42,11 @@ const AccordionItem = ({
 );
 
 const AsideHeader = () => {
-  const { setShowAside } = useMapStore();
+  const { setShowAside, currentGarden } = useMapStore();
+
+  useEffect(() => {
+    console.log(currentGarden);
+  }, [currentGarden]);
 
   return (
     <>

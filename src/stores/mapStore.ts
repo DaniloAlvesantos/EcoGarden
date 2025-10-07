@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { GardenResponse } from "../types/garden";
+import type { GardenResponse } from "../types/api/api.garden";
 
 interface MapStoreProps {
   showAside: boolean;
@@ -9,7 +9,7 @@ interface MapStoreProps {
 }
 
 export const useMapStore = create<MapStoreProps>((set) => ({
-  showAside: true,
+  showAside: false,
   setShowAside: (newState) => set({ showAside: newState }),
   currentGarden: null,
   setCurrentGarden: (newState) => set({ currentGarden: newState }),

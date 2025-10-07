@@ -2,6 +2,7 @@ import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "./style.scss";
 import { useMapStore } from "../../../stores/mapStore";
+import { useGetGarden } from "../../../hooks/useGetGarden";
 
 const createCircularImageIcon = (imageUrl: string, size: number = 40) => {
   return L.divIcon({
@@ -34,12 +35,16 @@ export const EcoGardenMarker = ({
   position: [number, number];
   imageUrl: string;
   title: string;
-  gardenId: number;
+  gardenId: string;
 }) => {
-  const { setShowAside } = useMapStore();
+  const { showAside, setShowAside, setCurrentGarden } = useMapStore();
+  const garden = useGetGarden(showAside ? gardenId : "");
   const icon = createCircularImageIcon(imageUrl);
 
   const handleSelectGarden = () => {
+    if (!garden?.isLoading && garden?.data) {
+      setCurrentGarden(garden.data);
+    }
     setShowAside(true);
   };
 
@@ -53,7 +58,10 @@ export const EcoGardenMarker = ({
             className="col-12 w-100 img-fluid rounded my-2"
           />
           <strong className="font-primary col-12 fs-6">{title}</strong>
-          <button className="btn btn-sm btn-outline-primary col-12 mt-2 rounded-pill" onClick={handleSelectGarden}>
+          <button
+            className="btn btn-sm btn-outline-primary col-12 mt-2 rounded-pill"
+            onClick={handleSelectGarden}
+          >
             Ver mais
           </button>
         </div>

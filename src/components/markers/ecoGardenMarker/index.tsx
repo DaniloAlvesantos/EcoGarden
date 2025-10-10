@@ -26,26 +26,35 @@ const createCircularImageIcon = (imageUrl: string, size: number = 40) => {
   });
 };
 
+interface EcoGardenMarkerProps {
+  position: [number, number];
+  imageUrl: string;
+  title: string;
+  gardenId: string;
+}
+
 export const EcoGardenMarker = ({
   position,
   imageUrl,
   title,
   gardenId,
-}: {
-  position: [number, number];
-  imageUrl: string;
-  title: string;
-  gardenId: string;
-}) => {
-  const { showAside, setShowAside, setCurrentGarden } = useMapStore();
-  const garden = useGetGarden(showAside ? gardenId : "");
-  const icon = createCircularImageIcon(imageUrl);
+}: EcoGardenMarkerProps) => {
+  const { setShowAside, setCurrentGarden } = useMapStore();
+
+  const garden = useGetGarden(gardenId);
+
+  if (!garden) {
+    return;
+  }
+
+  const icon = createCircularImageIcon(imageUrl, 60);
 
   const handleSelectGarden = () => {
-    if (!garden?.isLoading && garden?.data) {
+    // Only proceed if we have garden data
+    if (garden) {
       setCurrentGarden(garden.data);
+      setShowAside(true);
     }
-    setShowAside(true);
   };
 
   return (
@@ -54,15 +63,35 @@ export const EcoGardenMarker = ({
         <div className="py-1">
           <img
             src={imageUrl}
-            alt="popup image"
+            alt={`Garden: ${title}`}
             className="col-12 w-100 img-fluid rounded my-2"
+            onError={(e) => {
+              e.currentTarget.src =
+                "https://placehold.co/300x200?text=Garden+Image";
+            }}
           />
-          <strong className="font-primary col-12 fs-6">{title}</strong>
+          <strong className="font-primary col-12 fs-6 text-capitalize">{title}</strong>
+
           <button
-            className="btn btn-sm btn-outline-primary col-12 mt-2 rounded-pill"
+            className="btn btn-sm btn-outline-success col-12 mt-2 rounded-pill"
             onClick={handleSelectGarden}
+            disabled={garden.isLoading || garden.isError || !garden}
+            aria-label={`View more details about ${title}`}
           >
-            Ver mais
+            {garden.isLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-1"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Carregando...
+              </>
+            ) : garden.isError ? (
+              "Erro ao carregar"
+            ) : (
+              "Ver mais"
+            )}
           </button>
         </div>
       </Popup>

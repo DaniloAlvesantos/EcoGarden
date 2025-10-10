@@ -27,7 +27,7 @@ export const AsideComp = ({
       {...props}
     >
       <img
-        src="/gnome-1.svg"
+        src="/gnome-1.png"
         alt="gnome mascot"
         onClick={setIsOpen}
         className="mx-auto mt-2 img-fluid logo-aside"

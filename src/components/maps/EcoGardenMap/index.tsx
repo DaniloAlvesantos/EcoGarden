@@ -29,12 +29,12 @@ function EcoGardenMapComp() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      
+
       {gardens.data.map((garden) => {
         return (
           <EcoGardenMarker
             position={[garden.garden.lat, garden.garden.lng]}
-            imageUrl={garden.garden.img_url}
+            imageUrl={garden.garden.imgUrl}
             title={garden.garden.name}
             gardenId={garden.garden.id}
             key={garden.garden.id}

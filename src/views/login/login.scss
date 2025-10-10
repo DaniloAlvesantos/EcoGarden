@@ -1,0 +1,146 @@
+@use "../../scss/variables" as vars;
+@use "../../scss/mixins" as mixs;
+
+#login {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column; // mobile first
+  background-color: #fff;
+  overflow: hidden;
+
+  /* === FORM FIELD SECTION === */
+  #form-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 2rem 1.5rem;
+
+    .form-control {
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .form-control:focus {
+      box-shadow: 0 0 0 0.25rem rgba(24, 135, 84, 0.25);
+      border-color: #188754;
+    }
+
+    .password-wrapper {
+      position: relative;
+
+      .eye-btn {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: #6c757d;
+        padding: 0;
+        font-size: 1.25rem;
+        line-height: 1;
+        transition: color 0.2s ease;
+      }
+
+      .eye-btn:hover {
+        color: #188754;
+      }
+    }
+
+    form {
+      width: 100%;
+      max-width: 380px; // nice compact form on mobile
+    }
+
+    #logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      img {
+        width: 80px;
+        height: auto;
+      }
+
+      p {
+        margin-top: 1rem;
+        font-size: 1.5rem;
+        color: #188754;
+      }
+    }
+  }
+
+  /* === MASCOT SECTION === */
+  #mascot {
+    display: none;
+    background: var(--mascot-color);
+    transition: background 0.3s ease;
+
+    img {
+      max-width: 80%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  /* === TABLET AND UP === */
+  @include mixs.responsive(md) {
+    flex-direction: row;
+
+    #form-field {
+      width: 60%;
+      padding: 3rem 4rem;
+
+      form {
+        width: 100%;
+        max-width: 420px;
+      }
+
+      #logo {
+        flex-direction: row;
+        gap: 1rem;
+        margin: 2rem 0;
+
+        img {
+          width: 90px;
+        }
+
+        p {
+          margin-top: 3rem;
+          font-size: 2rem;
+        }
+      }
+    }
+
+    #mascot {
+      display: flex;
+      width: 40%;
+      height: 100dvh;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  /* === LARGE SCREENS === */
+  @include mixs.responsive(lg) {
+    #form-field {
+      padding: 4rem 6rem;
+
+      form {
+        max-width: 480px;
+      }
+
+      #logo p {
+        font-size: 2.25rem;
+      }
+    }
+
+    #mascot img {
+      max-width: 70%;
+    }
+  }
+}

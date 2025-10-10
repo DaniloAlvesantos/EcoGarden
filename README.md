@@ -1,4 +1,4 @@
-<p align="center"> <img src="/public/gnome-1.svg" alt="mascot"/> </p>
+<p align="center"> <img src="/public/gnome-1.png" alt="mascot"/> </p>
 
 # EcoGarden
 

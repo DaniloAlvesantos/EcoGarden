@@ -9,7 +9,7 @@
   transition: transform 0.3s ease-in-out;
   background: rgba(249, 246, 243, 0.5);
   backdrop-filter: blur(4px);
-  
+
   overflow-y: scroll;
 
   &.show {
@@ -22,6 +22,9 @@
   .aside-map-image-container {
     img {
       width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
     }
   }
 }
+

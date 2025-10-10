@@ -1,5 +1,5 @@
 import { Marker, Popup } from "react-leaflet";
-import Gnome from "/gnome-1.svg";
+import Gnome from "/gnome-1.png";
 import L from "leaflet";
 
 const createCircularImageIcon = (imageUrl: string, size: number = 40) => {
@@ -12,7 +12,7 @@ const createCircularImageIcon = (imageUrl: string, size: number = 40) => {
         border: 3px solid white;
         box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         background-image: url('${imageUrl}');
-        background-size: cover;
+        background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
       "></div>

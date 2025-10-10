@@ -1,20 +1,27 @@
 import type { DefaultResponse } from "./api.default";
+import type { IrrigationHistoryModel } from "./api.history";
+import type { PlantModel } from "./api.plant";
 
 interface GardenModel {
   number: number;
   name: string;
   cep: string;
-  tamanho_m2: number;
+  tamanhoM2: number;
   id: string;
   userId: string;
   lat: number;
   lng: number;
-  img_url: string;
+  imgUrl: string;
   createdAt: Date;
   owner: {
     name: string;
     email: string;
   };
+  irrigationHistory: IrrigationHistoryModel;
+  plants: {
+    plant: PlantModel;
+    quant: number;
+  }[];
 }
 
 export interface GardenResponse {

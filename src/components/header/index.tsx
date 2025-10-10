@@ -14,7 +14,7 @@ export const Header = () => {
       <div className="d-flex align-items-center">
         <img
           className="me-2 img-fluid logo"
-          src="/gnome-1.svg"
+          src="/gnome-1.png"
           alt="gnome mascot"
         />
         <span className="font-primary fw-bold">EcoGarden</span>

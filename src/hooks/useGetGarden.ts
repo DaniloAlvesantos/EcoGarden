@@ -1,4 +1,4 @@
-import { EcoGardenApi } from "../lib/ecogarden";
+import { EcoGardenApi } from "../lib/ecoGarden";
 import type { AxiosPromise } from "axios";
 import type { Garden } from "../types/api/api.garden";
 import { useQuery } from "@tanstack/react-query";

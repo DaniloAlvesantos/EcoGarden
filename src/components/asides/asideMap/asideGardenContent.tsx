@@ -3,43 +3,12 @@ import { LuAlarmClock } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
 import { useMapStore } from "../../../stores/mapStore";
 import { useEffect } from "react";
+import { MdOutlineWaterDrop } from "react-icons/md";
+import { FaDirections } from "react-icons/fa";
+import { AccordionMap } from "../../accordions/accordionMap";
 
-interface AccordionItemProps {
-  id: string;
-  title: string;
-  children: React.ReactNode;
-  defaultOpen?: boolean;
-}
-
-const AccordionItem = ({
-  id,
-  title,
-  children,
-  defaultOpen,
-}: AccordionItemProps) => (
-  <div className="accordion-item">
-    <h2 className="accordion-header" id={`heading-${id}`}>
-      <button
-        className={`accordion-button ${defaultOpen ? "" : "collapsed"}`}
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target={`#collapse-${id}`}
-        aria-expanded={defaultOpen ? "true" : "false"}
-        aria-controls={`collapse-${id}`}
-      >
-        {title}
-      </button>
-    </h2>
-    <div
-      id={`collapse-${id}`}
-      className={`accordion-collapse collapse ${defaultOpen ? "show" : ""}`}
-      aria-labelledby={`heading-${id}`}
-      data-bs-parent="#aside-map-accordion"
-    >
-      <div className="accordion-body">{children}</div>
-    </div>
-  </div>
-);
+const formatDate = (date: string | Date) =>
+  new Date(date).toLocaleDateString("pt-BR");
 
 const AsideHeader = () => {
   const { setShowAside, currentGarden } = useMapStore();
@@ -47,6 +16,10 @@ const AsideHeader = () => {
   useEffect(() => {
     console.log(currentGarden);
   }, [currentGarden]);
+
+  if (!currentGarden) return null;
+
+  const { garden, location } = currentGarden;
 
   return (
     <>
@@ -58,72 +31,137 @@ const AsideHeader = () => {
         />
       </div>
       <div className="aside-map-image-container">
-        <img
-          src="https://123ecos.com.br/wp-content/uploads/2024/06/Horta-comunitaria.jpg"
-          alt="Imagem da Horta"
-        />
+        <img src={garden.imgUrl} alt="Imagem da Horta" />
       </div>
       <div className="p-2">
-        <p className="font-primary fs-5 fw-bold m-0">Horta 01</p>
-        <p className="text-muted">Itapira, SP</p>
+        <p className="font-primary fs-5 fw-bold m-0 text-capitalize">
+          {garden.name}
+        </p>
+        <p className="text-muted">
+          {location.city}, {location.state}
+        </p>
+        <p className="fs-6">
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href={`https://maps.google.com/?q=${encodeURIComponent(
+              `${currentGarden.garden.lat}, ${currentGarden.garden.lng}`
+            )}`}
+            className="btn btn-success btn-small w-100 rounded-pill px-4 d-flex align-items-center justify-content-center gap-2 fw-medium"
+          >
+            <FaDirections />
+            Ir para
+          </a>
+        </p>
       </div>
     </>
   );
 };
 
-const HortaInfo = () => (
-  <ul className="list-group">
-    <li className="list-group-item">
-      Tamanho: 5 m<sup>2</sup>
-    </li>
-    <li className="list-group-item">Criada em: 20/08/2025</li>
-    <li className="list-group-item">Responsável: John Doe</li>
-    <li className="list-group-item">Email: johndoe@gmail.com</li>
-  </ul>
-);
+const HortaInfo = () => {
+  const { currentGarden } = useMapStore();
 
-const Sensores = () => (
-  <>
-    <MapCard.Sensor
-      header="Umidade"
-      title="70%"
-      text="min: 20% - max: 80%"
-      progress={70}
-      progressStyle="info"
-    />
-    <MapCard.Sensor
-      header="Temperatura"
-      title="28°C"
-      text="min: 2°C - max: 40°C"
-      progress={60}
-      progressStyle="warning"
-    />
-    <MapCard.Sensor
-      header="Nível d'água"
-      title="50%"
-      text="Aproximadamente 500ml"
-      progress={50}
-      progressStyle="primary"
-    />
-  </>
-);
+  if (!currentGarden) return null;
 
-const Historico = () => (
-  <ul className="list-group">
-    <li className="list-group-item d-flex align-items-center gap-2">
-      <LuAlarmClock /> 15:00 - 25/09/2025
-    </li>
-    <li className="list-group-item d-flex align-items-center gap-2">
-      <LuAlarmClock /> 08:00 - 25/09/2025
-    </li>
-    <li className="list-group-item d-flex align-items-center gap-2">
-      <LuAlarmClock /> 18:00 - 24/09/2025
-    </li>
-  </ul>
-);
+  const { owner, tamanhoM2, createdAt } = currentGarden.garden;
+
+  return (
+    <ul className="list-group">
+      <li className="list-group-item">
+        Tamanho: {tamanhoM2}m<sup>2</sup>
+      </li>
+      <li className="list-group-item">Criada em: {formatDate(createdAt)}</li>
+      <li className="list-group-item">Responsável: {owner.name}</li>
+      <li className="list-group-item">Email: {owner.email}</li>
+    </ul>
+  );
+};
+
+const Sensores = () => {
+  return (
+    <>
+      <MapCard.Sensor
+        header="Umidade"
+        title="70%"
+        text="min: 20% - max: 80%"
+        progress={70}
+        progressStyle="info"
+      />
+      <MapCard.Sensor
+        header="Temperatura"
+        title="28°C"
+        text="min: 2°C - max: 40°C"
+        progress={60}
+        progressStyle="warning"
+      />
+      <MapCard.Sensor
+        header="Nível d'água"
+        title="50%"
+        text="Aproximadamente 500ml"
+        progress={50}
+        progressStyle="primary"
+      />
+    </>
+  );
+};
+
+const Historico = () => {
+  const { currentGarden } = useMapStore();
+
+  const history = currentGarden?.garden.irrigationHistory.irrigations || [];
+
+  if (!history) return;
+
+  const sortedHistory = [...history].sort(
+    (a, b) => b.timestamp.getTime() - a.timestamp.getTime()
+  );
+
+  return (
+    <ul className="list-group">
+      {sortedHistory.length > 0 ? (
+        sortedHistory.map((item, index) => (
+          <li
+            key={item.id || index}
+            className="list-group-item d-flex align-items-center gap-2"
+          >
+            <LuAlarmClock />
+            {formatDate(item.timestamp)}
+            <MdOutlineWaterDrop />
+            {item.volume + "ml"}
+          </li>
+        ))
+      ) : (
+        <li className="list-group-item">
+          Nenhum histórico de irrigação encontrado.
+        </li>
+      )}
+    </ul>
+  );
+};
 
 const Plantas = () => {
-  return <MapCard.Plant name="Beterraba" nameCi="Beterraba" quant={5} />;
+  const { currentGarden } = useMapStore();
+
+  const plants = currentGarden?.garden.plants || [];
+
+  if (!plants) return;
+
+  return (
+    <>
+      {plants.length > 0 ? (
+        plants.map((plantGardenItem) => (
+          <MapCard.Plant
+            key={plantGardenItem.plant.id}
+            name={plantGardenItem.plant.nomeComum}
+            nameCi={plantGardenItem.plant.nomeCientifico}
+            quant={plantGardenItem.quant}
+          />
+        ))
+      ) : (
+        <p className="p-2 m-0">Nenhuma planta cadastrada nesta horta.</p>
+      )}
+    </>
+  );
 };
 
 export const AsideGardenContent = () => {
@@ -132,20 +170,20 @@ export const AsideGardenContent = () => {
       <AsideHeader />
 
       <div className="accordion" id="aside-map-accordion">
-        <AccordionItem id="one" title="Informações da Horta" defaultOpen>
+        <AccordionMap id="one" title="Informações da Horta" defaultOpen>
           <HortaInfo />
-        </AccordionItem>
+        </AccordionMap>
 
-        <AccordionItem id="two" title="Sensores">
+        <AccordionMap id="two" title="Sensores">
           <Sensores />
-        </AccordionItem>
+        </AccordionMap>
 
-        <AccordionItem id="three" title="Histórico Irrigação">
+        <AccordionMap id="three" title="Histórico Irrigação">
           <Historico />
-        </AccordionItem>
-        <AccordionItem id="four" title="Plantas">
+        </AccordionMap>
+        <AccordionMap id="four" title="Plantas">
           <Plantas />
-        </AccordionItem>
+        </AccordionMap>
       </div>
     </section>
   );

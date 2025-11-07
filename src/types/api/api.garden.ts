@@ -17,7 +17,6 @@ interface GardenModel {
     name: string;
     email: string;
   };
-  irrigationHistory: IrrigationHistoryModel;
   plants: {
     plant: PlantModel;
     quant: number;
@@ -31,6 +30,7 @@ export interface GardenResponse {
     state: string;
     street: string;
   };
+  irrigationHistory: IrrigationHistoryModel[];
 }
 
 export type Garden = DefaultResponse<GardenResponse>;

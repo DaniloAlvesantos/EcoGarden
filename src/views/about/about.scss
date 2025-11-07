@@ -1,0 +1,90 @@
+@use "../../scss/variables" as vars;
+@use "../../scss/mixins" as mixs;
+
+.about-container {
+  margin: 6.25rem 0;
+  overflow: hidden;
+}
+
+@include mixs.responsive(lg) {
+  .about-container {
+    padding: 0 2rem;
+  }
+}
+
+@include mixs.responsive(xl) {
+  .about-container {
+    padding: 0 10%;
+  }
+}
+
+.about-container-text {
+  p {
+    width: 100%;
+  }
+}
+
+@include mixs.responsive(md) {
+  .about-container-text {
+    p {
+      width: 55%;
+    }
+  }
+}
+
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 3rem;
+
+  max-height: none;
+
+  img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+.about-list {
+  margin-left: 2rem;
+
+  li {
+    font-weight: bold;
+    line-height: 1.35rem;
+    margin: 1.5rem 0;
+  }
+
+  li::marker {
+    font-family: "Inter", sans-serif;
+    color: vars.$eco-green-400;
+    font-weight: bold;
+  }
+}
+
+@include mixs.responsive(md) {
+  .about-content {
+    padding: 1rem;
+  }
+
+  .about-list {
+    margin-left: 0;
+  }
+}
+
+@include mixs.responsive(lg) {
+  .about-content {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-top: -4rem;
+
+    img {
+      max-width: 500px;
+      height: auto;
+    }
+  }
+}

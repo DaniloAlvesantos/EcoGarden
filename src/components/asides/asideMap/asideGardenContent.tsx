@@ -17,7 +17,7 @@ const AsideHeader = () => {
     console.log(currentGarden);
   }, [currentGarden]);
 
-  if (!currentGarden) return null;
+  if (!currentGarden) return;
 
   const { garden, location } = currentGarden;
 
@@ -108,24 +108,20 @@ const Sensores = () => {
 const Historico = () => {
   const { currentGarden } = useMapStore();
 
-  const history = currentGarden?.garden.irrigationHistory.irrigations || [];
+  const history = currentGarden?.irrigationHistory || [];
 
   if (!history) return;
 
-  const sortedHistory = [...history].sort(
-    (a, b) => b.timestamp.getTime() - a.timestamp.getTime()
-  );
-
   return (
     <ul className="list-group">
-      {sortedHistory.length > 0 ? (
-        sortedHistory.map((item, index) => (
+      {history.length > 0 ? (
+        history.map((item, index) => (
           <li
-            key={item.id || index}
+            key={index}
             className="list-group-item d-flex align-items-center gap-2"
           >
             <LuAlarmClock />
-            {formatDate(item.timestamp)}
+            {formatDate(new Date(item.timestamp))}
             <MdOutlineWaterDrop />
             {item.volume + "ml"}
           </li>

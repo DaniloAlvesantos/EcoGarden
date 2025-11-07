@@ -8,11 +8,12 @@ import { UserMarker } from "../../markers/userMarker";
 import { useGetGardens } from "../../../hooks/useGetGardens";
 
 function EcoGardenMapComp() {
-  const { position } = useCurrentPosition();
+  let { position } = useCurrentPosition();
   const gardens = useGetGardens();
+  console.log({ gardens });
 
   if (!position) {
-    return;
+    position = { lat: -22.436, lng: -46.821 };
   }
 
   if (!gardens) {

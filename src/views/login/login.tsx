@@ -1,20 +1,56 @@
-import { useState } from "react";
-import "./login.scss";
-import { mascots } from "../../constants/login";
+import { useEffect, useState } from "react";
+
+import { handleLogin } from "../../utils/auth";
 import { LoginForm, type LoginFormData } from "../../components/forms/login";
+import { mascots } from "../../constants/login";
+
+import "./login.scss";
+import { useAuthStore } from "../../stores/auth";
+import Cookies from "universal-cookie";
+import { redirect } from "react-router-dom";
 
 export function LoginView() {
+  const cookies = new Cookies();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  // Avoid unnecessary re-renders
   const [chosenMascot] = useState(
     mascots[Math.floor(Math.random() * mascots.length)]
   );
+
+  const { user, setUser } = useAuthStore();
+
+  useEffect(() => {
+    if (user && user.email) {
+      redirect("/");
+    }
+  }, [user]);
 
   const handlePasswordVisible = () => {
     setPasswordVisible((prev) => !prev);
   };
 
-  const handleForm = (data: LoginFormData) => {
-    console.log(data);
+  const handleForm = async (data: LoginFormData) => {
+    const hasEmptyValue = Object.entries(data).some(([, value]) => !value);
+    if (hasEmptyValue) {
+      alert("Formulário possui valor vazio!");
+      return;
+    }
+
+    const loginData = await handleLogin(data);
+
+    if (loginData.error) {
+      alert(loginData.error.message);
+      return;
+    }
+
+    const { token, currentUser, expires } = loginData;
+    console.log(expires);
+
+    cookies.set("ecogarden-token", token, {
+      expires,
+    });
+
+    setUser(currentUser);
   };
 
   return (

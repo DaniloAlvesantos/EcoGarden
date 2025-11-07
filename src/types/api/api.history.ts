@@ -1,6 +1,6 @@
-import type { IrrigationModel } from "./api.irrigation";
-
 export interface IrrigationHistoryModel {
-  id: string;
-  irrigations: IrrigationModel[];
+  temperature: number;
+  humidity: number;
+  volume: number;
+  timestamp: Date;
 }

@@ -1,35 +1,61 @@
-import { HiEyeOff, HiEye } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { PrimaryButton } from "../../buttons/primary";
 import { PrimaryInput } from "../../formFields/primaryInput";
+import { useHookFormMask } from "use-mask-input";
+import { useState } from "react";
+import { HiEyeOff, HiEye } from "react-icons/hi";
 
-export type LoginFormData = {
+export type SignUpFormData = {
+  name: string;
   email: string;
   password: string;
+  phone: string;
 };
 
-interface LoginFormProps {
-  passwordVisible: boolean;
-  handlePasswordVisible: VoidFunction;
-  handleForm: (data: LoginFormData) => void;
+interface SignUpFormProps {
+  handleForm: (data: SignUpFormData) => void;
 }
 
-export const LoginForm = (props: LoginFormProps) => {
-  const { passwordVisible, handlePasswordVisible, handleForm } = props;
+export const SignUpForm = (props: SignUpFormProps) => {
+  const { handleForm } = props;
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const handlePasswordVisible = () => {
+    setPasswordVisible((prev) => !prev);
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<LoginFormData>({
+  } = useForm<SignUpFormData>({
     mode: "onBlur",
   });
+
+  const registerPhoneWithMask = useHookFormMask(register);
 
   return (
     <form onSubmit={handleSubmit(handleForm)}>
       <div className="form-floating mb-3">
-        <PrimaryInput<LoginFormData>
+        <PrimaryInput<SignUpFormData>
+          type="text"
+          id="nameInp"
+          placeholder="Fulano da silva"
+          name="name"
+          errors={errors}
+          required="Nome é obrigatório"
+          register={register}
+          inputMode="text"
+        />
+        <label htmlFor="emailInp">Nome</label>
+        {errors.name && (
+          <small className="text-danger">{errors.name.message}</small>
+        )}
+      </div>
+
+      <div className="form-floating mb-3">
+        <PrimaryInput<SignUpFormData>
           type="email"
           id="emailInp"
           placeholder="name@example.com"
@@ -45,6 +71,7 @@ export const LoginForm = (props: LoginFormProps) => {
             message: "Email muito curto",
           }}
           register={register}
+          inputMode="email"
         />
         <label htmlFor="emailInp">Email</label>
         {errors.email && (
@@ -52,8 +79,26 @@ export const LoginForm = (props: LoginFormProps) => {
         )}
       </div>
 
+      <div className="form-floating mb-3">
+        <PrimaryInput.PrimaryInputWithMask<SignUpFormData>
+          type="tel"
+          id="telInp"
+          placeholder="(19) 99999-9999"
+          name="phone"
+          errors={errors}
+          required="Telefone é obrigatório"
+          mask="99 99999-9999"
+          register={registerPhoneWithMask}
+          inputMode="tel"
+        />
+        <label htmlFor="emailInp">Telefone</label>
+        {errors.phone && (
+          <small className="text-danger">{errors.phone.message}</small>
+        )}
+      </div>
+
       <div className="form-floating mb-3 password-wrapper">
-        <PrimaryInput<LoginFormData>
+        <PrimaryInput<SignUpFormData>
           name="password"
           errors={errors}
           register={register}
@@ -72,7 +117,13 @@ export const LoginForm = (props: LoginFormProps) => {
           onClick={handlePasswordVisible}
           aria-label="Toggle password visibility"
         >
-          {!errors.password ? passwordVisible ? <HiEyeOff /> : <HiEye /> : undefined}
+          {!errors.password ? (
+            passwordVisible ? (
+              <HiEyeOff />
+            ) : (
+              <HiEye />
+            )
+          ) : undefined}
         </button>
         <label htmlFor="passwordInp">Password</label>
         {errors.password && (
@@ -82,10 +133,10 @@ export const LoginForm = (props: LoginFormProps) => {
 
       <PrimaryButton type="submit" disabled={!isValid} text="Entrar" />
       <Link
-        to="/signup"
+        to="/login"
         className="m-2 font-secondary text-decoration-underline text-primary"
       >
-        Criar conta
+        Entrar com uma conta
       </Link>
     </form>
   );

@@ -4,6 +4,7 @@
   color: #fff;
   padding-top: 2rem;
   padding-bottom: 1rem;
+  margin-top:4rem;
 
   .footer-links {
     li {
@@ -23,11 +24,12 @@
   }
 
   .footer-logo {
-    height: 64px;
+    height: 7.5rem;
+    object-fit: cover;
   }
 
   .footer-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
     margin: 1.5rem 0;
   }
 }

@@ -6,6 +6,7 @@ import { memo } from "react";
 import { EcoGardenMarker } from "../../markers/ecoGardenMarker";
 import { UserMarker } from "../../markers/userMarker";
 import { useGetGardens } from "../../../hooks/useGetGardens";
+import { ErrorView } from "../../../views/error/error";
 
 function EcoGardenMapComp() {
   let { position } = useCurrentPosition();
@@ -13,11 +14,12 @@ function EcoGardenMapComp() {
   console.log({ gardens });
 
   if (!position) {
+    // Itapira, SP lat and lang
     position = { lat: -22.436, lng: -46.821 };
   }
 
   if (!gardens) {
-    return;
+    return <ErrorView />;
   }
 
   return (

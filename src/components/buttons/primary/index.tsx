@@ -11,7 +11,10 @@ export const PrimaryButton = (props: PrimaryButtonProps) => {
 
   return (
     <button
-      className={"btn bg-eco-green-500 text-eco-light rounded-pill px-4 py-2 hover-eco-bg transition-colors fs-6" + className}
+      className={
+        "btn bg-eco-green-500 text-eco-light rounded-pill px-4 py-2 hover-eco-bg transition-colors fs-6" +
+        className
+      }
       onClick={onClick}
       disabled={disabled}
       aria-label={text}

@@ -1,0 +1,37 @@
+@use "../../scss/mixins" as mixins;
+
+.not-found-page {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  overflow: hidden;
+
+  height: 100vh;
+
+  img {
+    height: 20rem;
+    object-fit: cover;
+  }
+
+  @include mixins.responsive(md) {
+    flex-direction: row;
+
+    p {
+      width: 75%;
+    }
+
+    img {
+      height: 75%;
+      object-fit: contain;
+    }
+  }
+
+  @include mixins.responsive(lg) {
+    p {
+      width: 50%;
+    }
+  }
+}

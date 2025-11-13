@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SignUpForm, type SignUpFormData } from "../components/forms/signup";
 import { mascots } from "../constants/login";
+import Gnome from "../assets/mascots/gnome-plate.png";
 import "../views/login/login.scss";
 
 export function SignUpPage() {
@@ -24,7 +25,7 @@ export function SignUpPage() {
           className="d-flex mx-auto align-items-center font-primary fw-bold"
         >
           <img
-            src="src/assets/mascots/gnome-plate.png"
+            src={Gnome}
             alt="Gnome with plate"
           />
           <p>Eco Garden</p>
@@ -39,10 +40,7 @@ export function SignUpPage() {
           "--mascot-color": chosenMascot.color,
         }}
       >
-        <img
-          src={"src/assets/mascots" + chosenMascot.path}
-          alt={chosenMascot.name}
-        />
+        <img src={chosenMascot.path} alt={chosenMascot.name} />
       </div>
     </section>
   );

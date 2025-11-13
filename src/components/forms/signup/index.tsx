@@ -131,13 +131,15 @@ export const SignUpForm = (props: SignUpFormProps) => {
         )}
       </div>
 
-      <PrimaryButton type="submit" disabled={!isValid} text="Entrar" />
-      <Link
-        to="/login"
-        className="m-2 font-secondary text-decoration-underline text-primary"
-      >
-        Entrar com uma conta
-      </Link>
+      <div className="d-flex flex-column">
+        <PrimaryButton type="submit" disabled={!isValid} text="Entrar" />
+        <Link
+          to="/login"
+          className="m-2 font-secondary text-decoration-underline text-primary"
+        >
+          Entrar com uma conta
+        </Link>
+      </div>
     </form>
   );
 };

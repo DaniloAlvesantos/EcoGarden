@@ -72,7 +72,13 @@ export const LoginForm = (props: LoginFormProps) => {
           onClick={handlePasswordVisible}
           aria-label="Toggle password visibility"
         >
-          {!errors.password ? passwordVisible ? <HiEyeOff /> : <HiEye /> : undefined}
+          {!errors.password ? (
+            passwordVisible ? (
+              <HiEyeOff />
+            ) : (
+              <HiEye />
+            )
+          ) : undefined}
         </button>
         <label htmlFor="passwordInp">Password</label>
         {errors.password && (
@@ -80,13 +86,15 @@ export const LoginForm = (props: LoginFormProps) => {
         )}
       </div>
 
-      <PrimaryButton type="submit" disabled={!isValid} text="Entrar" />
-      <Link
-        to="/signup"
-        className="m-2 font-secondary text-decoration-underline text-primary"
-      >
-        Criar conta
-      </Link>
+      <div className="d-flex flex-column">
+        <PrimaryButton type="submit" disabled={!isValid} text="Entrar" />
+        <Link
+          to="/signup"
+          className="m-2 font-secondary text-decoration-underline text-primary"
+        >
+          Criar conta
+        </Link>
+      </div>
     </form>
   );
 };

@@ -7,7 +7,6 @@
   display: flex;
   flex-direction: column; // mobile first
   background-color: #fff;
-  overflow: hidden;
 
   /* === FORM FIELD SECTION === */
   #form-field {
@@ -76,7 +75,9 @@
 
   /* === MASCOT SECTION === */
   #mascot {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--mascot-color);
     transition: background 0.3s ease;
 
@@ -89,6 +90,7 @@
 
   /* === TABLET AND UP === */
   @include mixs.responsive(md) {
+    overflow: hidden;
     flex-direction: row;
 
     #form-field {

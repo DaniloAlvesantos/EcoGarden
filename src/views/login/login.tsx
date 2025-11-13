@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { handleLogin } from "../../utils/auth";
 import { LoginForm, type LoginFormData } from "../../components/forms/login";
 import { mascots } from "../../constants/login";
+import Gnome from "../../assets/mascots/gnome-plate.png";
 
 import "./login.scss";
 import { useAuthStore } from "../../stores/auth";
@@ -60,10 +61,7 @@ export function LoginView() {
           id="logo"
           className="d-flex mx-auto align-items-center font-primary fw-bold"
         >
-          <img
-            src="src/assets/mascots/gnome-plate.png"
-            alt="Gnome with plate"
-          />
+          <img src={Gnome} alt="Gnome with plate" />
           <p>Eco Garden</p>
         </div>
         <LoginForm
@@ -80,10 +78,7 @@ export function LoginView() {
           "--mascot-color": chosenMascot.color,
         }}
       >
-        <img
-          src={"src/assets/mascots" + chosenMascot.path}
-          alt={chosenMascot.name}
-        />
+        <img src={chosenMascot.path} alt={chosenMascot.name} />
       </div>
     </section>
   );

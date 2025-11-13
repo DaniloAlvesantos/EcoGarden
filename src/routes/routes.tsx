@@ -3,6 +3,7 @@ import { App } from "../App";
 import { MapPage } from "../pages/map";
 import { LoginPage } from "../pages/login";
 import { SignUpPage } from "../pages/signUp";
+import { NotFoundPage } from "../views/notFound/notFound";
 
 export const AppRoutes = () => {
   return (
@@ -12,7 +13,7 @@ export const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       {/* Catch-all 404 route */}
-      <Route path="*" element={<div>Page 404!</div>} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

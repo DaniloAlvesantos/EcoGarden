@@ -2,10 +2,7 @@ import { memo } from "react";
 import { Link } from "react-router-dom";
 import "./aside.scss";
 
-type NavigationItem = {
-  title: string;
-  url: string;
-};
+type NavigationItem = { title: string; url: string; isFeature?: boolean };
 
 interface AsideProps extends React.ComponentProps<"aside"> {
   navigation: NavigationItem[];

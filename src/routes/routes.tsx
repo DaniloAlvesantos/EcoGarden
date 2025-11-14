@@ -4,6 +4,8 @@ import { MapPage } from "../pages/map";
 import { LoginPage } from "../pages/login";
 import { SignUpPage } from "../pages/signUp";
 import { NotFoundPage } from "../views/notFound/notFound";
+import { GardenForm } from "../components/forms/garden";
+import { DashboardPage } from "../pages/dashboard";
 
 export const AppRoutes = () => {
   return (
@@ -12,6 +14,8 @@ export const AppRoutes = () => {
       <Route path="/map" element={<MapPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/garden/create" element={<GardenForm />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
       {/* Catch-all 404 route */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

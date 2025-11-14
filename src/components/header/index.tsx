@@ -4,7 +4,20 @@ import { RiMenu3Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import "./header.scss";
 
-export const Header = () => {
+interface HeaderProps {
+  navigation?: { title: string; url: string; isFeature?: boolean }[];
+}
+
+export type NavigationType = HeaderProps["navigation"];
+
+const defautNavigation: HeaderProps["navigation"] = [
+  { title: "Sobre", url: "#about", isFeature: false },
+  { title: "Recursos", url: "#features", isFeature: false },
+  { title: "Login", url: "/login", isFeature: false },
+  { title: "Localizar", url: "/map", isFeature: true },
+];
+
+export const Header = ({ navigation = defautNavigation }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggleAside = () => setIsOpen((prev) => !prev);
@@ -20,7 +33,51 @@ export const Header = () => {
         <span className="font-primary fw-bold">EcoGarden</span>
       </div>
 
-      <NavItems />
+      <nav className="d-none d-md-block">
+        <ul
+          className="d-flex align-items-center list-unstyled mb-0 font-primary fw-medium"
+          style={{ fontSize: "0.875rem", gap: "1rem" }}
+        >
+          {navigation.map((item, index) => {
+            if (item.isFeature) {
+              return (
+                <li key={index}>
+                  <Link
+                    to={item.url}
+                    className="btn bg-eco-green-500 text-eco-light rounded-pill px-4 py-2 text-decoration-none hover-eco-bg transition-colors"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              );
+            }
+            return (
+              <li
+                key={index}
+                style={{ cursor: "pointer" }}
+              >
+                {item.url.startsWith("http") ? (
+                  <a
+                    href={item.url}
+                    className="hover-eco-green transition-colors text-decoration-none text-inherit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.title}
+                  </a>
+                ) : (
+                  <Link
+                    to={item.url}
+                    className="hover-eco-green transition-colors text-decoration-none text-inherit"
+                  >
+                    {item.title}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
       <span
         className="d-md-none p-2 rounded-circle transition-colors"
@@ -38,54 +95,9 @@ export const Header = () => {
 
       <AsideMenu
         isOpen={isOpen}
-        navigation={[
-          { title: "Sobre", url: "#about" },
-          { title: "Recursos", url: "#features" },
-          { title: "Login", url: "/login" },
-          { title: "Localizar", url: "/map" },
-        ]}
+        navigation={navigation}
         setIsOpen={toggleAside}
       />
     </header>
-  );
-};
-
-const NavItems = () => {
-  return (
-    <nav className="d-none d-md-block">
-      <ul
-        className="d-flex align-items-center list-unstyled mb-0 font-primary fw-medium"
-        style={{ fontSize: "0.875rem", gap: "1rem" }}
-      >
-        <li
-          className="hover-eco-green transition-colors"
-          style={{ cursor: "pointer" }}
-        >
-          Sobre
-        </li>
-        <li
-          className="hover-eco-green transition-colors"
-          style={{ cursor: "pointer" }}
-        >
-          Recursos
-        </li>
-        <li
-          className="hover-eco-green transition-colors"
-          style={{ cursor: "pointer" }}
-        >
-          <Link to="/login" className="text-decoration-none text-inherit">
-            Login
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/map"
-            className="btn bg-eco-green-500 text-eco-light rounded-pill px-4 py-2 text-decoration-none hover-eco-bg transition-colors"
-          >
-            Localizar
-          </Link>
-        </li>
-      </ul>
-    </nav>
   );
 };
